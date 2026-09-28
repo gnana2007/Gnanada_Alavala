@@ -1,13 +1,12 @@
 import { useState, useEffect } from "react";
-import { Menu, X, ArrowUpRight, Sparkles } from "lucide-react";
+import { Menu, X, ArrowUpRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface NavProps {
   onOpenResume?: () => void;
-  onOpenAssistant?: () => void;
 }
 
-export default function Nav({ onOpenResume, onOpenAssistant }: NavProps) {
+export default function Nav({ onOpenResume }: NavProps) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -21,7 +20,6 @@ export default function Nav({ onOpenResume, onOpenAssistant }: NavProps) {
 
   const navLinks = [
     { label: "WORK", href: "#work" },
-    { label: "LAB", href: "#lab" },
     { label: "ABOUT", href: "#about" },
     { label: "RESUME", href: "#resume", onClick: onOpenResume },
     { label: "CONTACT", href: "#contact" },
@@ -65,29 +63,10 @@ export default function Nav({ onOpenResume, onOpenAssistant }: NavProps) {
               </a>
             ))}
 
-            {onOpenAssistant && (
-              <button
-                onClick={onOpenAssistant}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-mono tracking-wider text-lagoon-primary bg-white/80 border border-lagoon-primary/15 hover:border-lagoon-accent/50 hover:bg-white shadow-xs transition-all duration-200 group"
-                title="Ask AI Assistant"
-              >
-                <Sparkles className="w-3.5 h-3.5 text-lagoon-accent group-hover:rotate-12 transition-transform" />
-                <span>AI</span>
-              </button>
-            )}
           </nav>
 
           {/* Mobile Menu Button */}
           <div className="flex md:hidden items-center gap-3">
-            {onOpenAssistant && (
-              <button
-                onClick={onOpenAssistant}
-                className="p-2 rounded-full text-lagoon-primary bg-white/80 border border-lagoon-primary/15"
-                aria-label="Open AI Assistant"
-              >
-                <Sparkles className="w-4 h-4 text-lagoon-accent" />
-              </button>
-            )}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="p-2 text-lagoon-deep hover:text-lagoon-primary focus:outline-none"

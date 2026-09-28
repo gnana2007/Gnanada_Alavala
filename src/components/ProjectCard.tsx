@@ -6,6 +6,8 @@ import {
   PlantWiseMockup, 
   TeachMeWrongMockup, 
   TimeSenseiMockup, 
+  AirDrawingMockup,
+  Photo3DMockup,
   KaalChakraMockup, 
   CodeMentorMockup 
 } from "./ProjectMockups";
@@ -18,7 +20,7 @@ interface ProjectCardProps {
 export default function ProjectCard({ project, onOpenCaseStudy }: ProjectCardProps) {
   const [isHovered, setIsHovered] = useState(false);
 
-  // Render specific interactive mockup based on project demoType
+  // Render specific interactive mockup container
   const renderVisualMockup = () => {
     switch (project.demoType) {
       case "plantwise":
@@ -27,79 +29,79 @@ export default function ProjectCard({ project, onOpenCaseStudy }: ProjectCardPro
         return <TeachMeWrongMockup />;
       case "timesensei":
         return <TimeSenseiMockup />;
+      case "airdrawing":
+        return <AirDrawingMockup />;
+      case "photo3d":
+        return <Photo3DMockup />;
       case "kaalchakra":
         return <KaalChakraMockup />;
       case "codementor":
         return <CodeMentorMockup />;
       case "keno":
         return (
-          <div className="w-full rounded-2xl glass-panel p-6 border border-white/80 shadow-glass-sm flex flex-col gap-4">
-            <div className="flex items-center justify-between border-b border-lagoon-border/70 pb-3">
-              <span className="font-mono text-xs uppercase tracking-wider font-semibold text-lagoon-deep">
-                PIANO KEYBOARD FREQUENCY ENGINE
+          <div className="w-full rounded-2xl glass-panel-subtle p-4 flex flex-col gap-2.5 select-none">
+            <div className="flex items-center justify-between border-b border-lagoon-border/70 pb-2">
+              <span className="font-mono text-[11px] uppercase tracking-wider font-semibold text-lagoon-deep">
+                KEYBOARD FREQUENCY ENGINE
               </span>
-              <span className="font-mono text-xs text-lagoon-primary bg-lagoon-glow px-2.5 py-0.5 rounded-full">
-                ML DIFFICULTY ADAPTIVE
+              <span className="font-mono text-[10px] text-lagoon-primary bg-lagoon-glow px-2 py-0.5 rounded-full">
+                ML ADAPTIVE
               </span>
             </div>
-            {/* Interactive Piano Keys */}
-            <div className="flex justify-center items-end h-32 gap-1.5 p-3 bg-slate-900 rounded-xl">
+            <div className="flex justify-center items-end h-20 gap-1 p-2 bg-slate-900 rounded-xl">
               {["C4", "D4", "E4", "F4", "G4", "A4", "B4", "C5"].map((note, idx) => (
                 <button
                   key={note}
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.stopPropagation();
                     try {
-                      const ctx = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
+                      const AudioCtx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+                      const ctx = new AudioCtx();
                       const osc = ctx.createOscillator();
                       const gain = ctx.createGain();
                       const freqs = [261.63, 293.66, 329.63, 349.23, 392.0, 440.0, 493.88, 523.25];
                       osc.type = "sine";
                       osc.frequency.setValueAtTime(freqs[idx], ctx.currentTime);
                       gain.gain.setValueAtTime(0.2, ctx.currentTime);
-                      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.6);
+                      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.5);
                       osc.connect(gain);
                       gain.connect(ctx.destination);
                       osc.start();
-                      osc.stop(ctx.currentTime + 0.6);
+                      osc.stop(ctx.currentTime + 0.5);
                     } catch {}
                   }}
-                  className="flex-1 max-w-[42px] h-full bg-white hover:bg-lagoon-accent active:bg-lagoon-primary rounded-b-md shadow transition-colors flex items-end justify-center pb-2 text-[10px] font-mono font-bold text-slate-800"
+                  className="flex-1 max-w-[32px] h-full bg-white hover:bg-lagoon-accent active:bg-lagoon-primary rounded-b shadow flex items-end justify-center pb-1 text-[9px] font-mono font-bold text-slate-800"
                 >
                   {note}
                 </button>
               ))}
             </div>
-            <p className="text-xs text-lagoon-muted text-center font-mono">
-              Click keys to play synth notes synthesized via browser Web Audio API
+            <p className="text-[10px] text-lagoon-muted text-center font-mono">
+              Click keys to play Web Audio synth notes
             </p>
           </div>
         );
       case "recipora":
         return (
-          <div className="w-full rounded-2xl glass-panel p-6 border border-white/80 shadow-glass-sm flex flex-col gap-4">
-            <div className="flex items-center justify-between border-b border-lagoon-border/70 pb-3">
-              <span className="font-mono text-xs uppercase tracking-wider font-semibold text-lagoon-deep">
-                PANTRY INGREDIENT EMBEDDING MATCHER
+          <div className="w-full rounded-2xl glass-panel-subtle p-4 flex flex-col gap-2.5 select-none">
+            <div className="flex items-center justify-between border-b border-lagoon-border/70 pb-2">
+              <span className="font-mono text-[11px] uppercase tracking-wider font-semibold text-lagoon-deep">
+                ZERO-WASTE INGREDIENT MATCHER
               </span>
-              <span className="font-mono text-xs text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
-                ZERO-WASTE DISCOVERY
+              <span className="font-mono text-[10px] text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+                96% MATCH
               </span>
             </div>
-            <div className="flex flex-wrap gap-2">
-              {["Chickpeas", "Spinach", "Tomatoes", "Garlic", "Cumin"].map((item) => (
-                <span key={item} className="px-3 py-1 bg-white border border-lagoon-border rounded-lg text-xs font-medium text-lagoon-deep">
+            <div className="flex flex-wrap gap-1.5">
+              {["Chickpeas", "Spinach", "Tomatoes", "Garlic"].map((item) => (
+                <span key={item} className="px-2 py-0.5 bg-white border border-lagoon-border rounded-md text-[10px] font-medium text-lagoon-deep">
                   + {item}
                 </span>
               ))}
             </div>
-            <div className="p-3.5 rounded-xl bg-white/70 border border-lagoon-accent/30 text-xs">
-              <div className="font-semibold text-lagoon-primary flex items-center justify-between">
-                <span>Top Match: Mediterranean Spinach & Spiced Chickpea Stew</span>
-                <span className="font-mono text-[10px] text-emerald-600">96% pantry utilization</span>
-              </div>
-              <p className="text-lagoon-muted mt-1 text-[11px]">
-                Vector match uses 5 out of 5 expiring pantry staples with zero extra groceries required.
-              </p>
+            <div className="p-2 rounded-lg bg-white/70 border border-lagoon-accent/30 text-[10px] text-lagoon-deep">
+              <span className="font-semibold text-lagoon-primary block">Mediterranean Spiced Stew</span>
+              <span className="text-lagoon-muted text-[9px]">Calculates zero grocery waste recipe</span>
             </div>
           </div>
         );
@@ -110,105 +112,102 @@ export default function ProjectCard({ project, onOpenCaseStudy }: ProjectCardPro
 
   return (
     <article
+      onClick={() => onOpenCaseStudy(project)}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="relative rounded-3xl p-6 sm:p-8 lg:p-10 transition-all duration-500 ease-out border bg-white/60 backdrop-blur-md shadow-glass-sm hover:shadow-glass hover:bg-white/80 hover:-translate-y-1.5"
+      className="group relative rounded-3xl p-6 sm:p-7 transition-all duration-400 ease-out border bg-white/70 backdrop-blur-md shadow-glass-sm hover:shadow-glass-lg hover:bg-white/90 hover:-translate-y-1.5 cursor-pointer flex flex-col justify-between"
       style={{
-        borderColor: isHovered ? "rgba(11, 114, 133, 0.28)" : "rgba(11, 114, 133, 0.12)",
+        borderColor: isHovered ? "rgba(11, 114, 133, 0.3)" : "rgba(11, 114, 133, 0.12)",
       }}
     >
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
-        
-        {/* Left Side: Metadata & Narrative */}
-        <div className="lg:col-span-6 flex flex-col justify-between">
-          <div>
-            {/* Top Index & Badge */}
-            <div className="flex items-center gap-3 mb-4">
-              <span className="font-mono text-sm font-semibold text-lagoon-primary">
-                PROJ // {project.number}
-              </span>
-              <span className="w-1.5 h-1.5 rounded-full bg-lagoon-border" />
-              <span className="font-mono text-xs tracking-wider uppercase text-lagoon-muted font-medium">
-                {project.category}
-              </span>
-              {project.badge && (
-                <span className="ml-auto font-mono text-[10px] tracking-wider text-lagoon-primary bg-lagoon-glow border border-lagoon-accent/30 px-2.5 py-0.5 rounded-full font-bold">
-                  {project.badge}
-                </span>
-              )}
-            </div>
-
-            {/* Title & Subtitle */}
-            <h3 className="font-heading font-semibold text-2xl sm:text-3xl text-lagoon-deep tracking-tight">
-              {project.name}
-            </h3>
-            <p className="font-mono text-xs sm:text-sm text-lagoon-primary font-medium mt-1 mb-4">
-              {project.subtitle}
-            </p>
-
-            {/* Description */}
-            <p className="text-sm sm:text-base text-lagoon-muted leading-relaxed font-normal mb-6">
-              {project.description}
-            </p>
-
-            {/* Key Metric Badge if present */}
-            {project.metric && (
-              <div className="inline-flex items-center gap-3 px-4 py-2 rounded-xl bg-white/80 border border-lagoon-accent/25 shadow-xs mb-6">
-                <span className="font-mono text-lg font-bold text-lagoon-primary">
-                  {project.metric.value}
-                </span>
-                <span className="text-xs text-lagoon-muted font-medium">
-                  {project.metric.label}
-                </span>
-              </div>
-            )}
-
-            {/* Tech Stack Pills */}
-            <div className="flex flex-wrap gap-2 mb-8">
-              {project.tech.map((t) => (
-                <span
-                  key={t}
-                  className="px-3 py-1 rounded-full text-xs font-mono text-lagoon-deep bg-white/70 border border-lagoon-border/80 shadow-xs"
-                >
-                  {t}
-                </span>
-              ))}
-            </div>
+      <div>
+        {/* Top Metadata Header */}
+        <div className="flex items-center justify-between gap-2 mb-3.5">
+          <div className="flex items-center gap-2">
+            <span className="font-mono text-xs font-bold text-lagoon-primary">
+              PROJ // {project.number}
+            </span>
+            <span className="w-1 h-1 rounded-full bg-lagoon-border" />
+            <span className="font-mono text-[10px] tracking-wider uppercase text-lagoon-muted font-semibold">
+              {project.category}
+            </span>
           </div>
 
-          {/* Action Buttons */}
-          <div className="flex flex-wrap items-center gap-3 pt-4 border-t border-lagoon-border/60">
-            <button
-              onClick={() => onOpenCaseStudy(project)}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-lagoon-primary text-white font-mono text-xs tracking-wider uppercase font-semibold hover:bg-lagoon-secondary hover:shadow-md transition-all duration-300 group"
+          {project.badge && (
+            <span className="font-mono text-[9px] tracking-wider text-lagoon-primary bg-lagoon-glow border border-lagoon-accent/30 px-2 py-0.5 rounded-full font-bold">
+              {project.badge}
+            </span>
+          )}
+        </div>
+
+        {/* Title & Subtitle */}
+        <h3 className="font-heading font-semibold text-xl sm:text-2xl text-lagoon-deep tracking-tight group-hover:text-lagoon-primary transition-colors">
+          {project.name}
+        </h3>
+        <p className="font-mono text-xs text-lagoon-primary font-medium mt-0.5 mb-3">
+          {project.subtitle}
+        </p>
+
+        {/* Concise Summary */}
+        <p className="text-xs sm:text-sm text-lagoon-muted leading-relaxed font-normal mb-5 line-clamp-2">
+          {project.shortSummary}
+        </p>
+
+        {/* Interactive Demonstration Container */}
+        <div className="mb-5 transition-transform duration-300 ease-out group-hover:scale-[1.01]">
+          {renderVisualMockup()}
+        </div>
+
+        {/* Tech Stack Pills */}
+        <div className="flex flex-wrap gap-1.5 mb-5">
+          {project.tech.map((t) => (
+            <span
+              key={t}
+              className="px-2.5 py-0.5 rounded-lg text-[10px] font-mono text-lagoon-deep bg-white/80 border border-lagoon-border shadow-2xs"
             >
-              <span>VIEW CASE STUDY</span>
-              <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-            </button>
-
-            {project.githubUrl && (
-              <a
-                href={project.githubUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full glass-panel text-lagoon-deep font-mono text-xs tracking-wider uppercase font-medium hover:border-lagoon-primary/40 hover:bg-white transition-all duration-300"
-              >
-                <GithubIcon className="w-3.5 h-3.5 text-lagoon-primary" />
-                <span>GITHUB</span>
-              </a>
-            )}
-          </div>
+              {t}
+            </span>
+          ))}
         </div>
+      </div>
 
-        {/* Right Side: Interactive Technical Mockup Demonstration */}
-        <div className="lg:col-span-6 flex items-center justify-center">
-          <div className="w-full transition-transform duration-500 ease-out" style={{
-            transform: isHovered ? "scale(1.01)" : "scale(1)",
-          }}>
-            {renderVisualMockup()}
+      {/* Container Footer: Key Metric & Inspect Button */}
+      <div className="flex items-center justify-between pt-4 border-t border-lagoon-border/60 mt-auto">
+        {project.metric ? (
+          <div className="flex items-center gap-2">
+            <span className="font-mono text-xs font-bold text-lagoon-primary">
+              {project.metric.value}
+            </span>
+            <span className="text-[10px] text-lagoon-muted font-medium">
+              {project.metric.label}
+            </span>
           </div>
-        </div>
+        ) : (
+          <span className="text-[10px] font-mono text-lagoon-muted">PROD READY</span>
+        )}
 
+        <div className="flex items-center gap-2">
+          {project.githubUrl && (
+            <a
+              href={project.githubUrl}
+              target="_blank"
+              rel="noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className="p-2 rounded-full glass-panel text-lagoon-muted hover:text-lagoon-primary hover:bg-white transition-colors"
+              title="View on GitHub"
+            >
+              <GithubIcon className="w-3.5 h-3.5" />
+            </a>
+          )}
+
+          <button
+            onClick={() => onOpenCaseStudy(project)}
+            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-lagoon-primary text-white font-mono text-[11px] tracking-wider uppercase font-semibold hover:bg-lagoon-secondary transition-all group-hover:shadow-xs"
+          >
+            <span>DETAILS</span>
+            <ArrowUpRight className="w-3 h-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+          </button>
+        </div>
       </div>
     </article>
   );

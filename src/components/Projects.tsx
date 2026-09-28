@@ -14,9 +14,10 @@ export default function Projects({ onSelectProject }: ProjectsProps) {
   const categories: ProjectCategory[] = [
     "ALL",
     "AI / ML",
-    "FULL STACK",
     "COMPUTER VISION",
+    "FULL STACK",
     "HARDWARE",
+    "EXPERIMENTS",
   ];
 
   const filteredProjects = useMemo(() => {
@@ -34,14 +35,14 @@ export default function Projects({ onSelectProject }: ProjectsProps) {
             <div className="flex items-center gap-2 mb-3">
               <span className="w-1.5 h-1.5 rounded-full bg-lagoon-primary" />
               <span className="font-mono text-xs tracking-[0.2em] uppercase text-lagoon-muted font-medium">
-                PORTFOLIO SHOWCASE
+                PORTFOLIO WORK
               </span>
             </div>
             <h2 className="font-heading font-semibold text-3xl sm:text-4xl md:text-5xl text-lagoon-deep tracking-tight">
-              SELECTED WORK
+              SELECTED PROJECTS
             </h2>
             <p className="mt-2 text-base sm:text-lg text-lagoon-muted max-w-xl">
-              A collection of systems, experiments and products I've built.
+              Systems, intelligent prototypes and interactive hardware. Click any container to inspect detailed architecture & engineering decisions.
             </p>
           </div>
 
@@ -53,9 +54,9 @@ export default function Projects({ onSelectProject }: ProjectsProps) {
                 <button
                   key={cat}
                   onClick={() => setSelectedCategory(cat)}
-                  className={`px-4 py-2 rounded-full font-mono text-xs tracking-wider uppercase transition-all duration-300 ${
+                  className={`px-3.5 py-1.5 rounded-full font-mono text-[11px] tracking-wider uppercase transition-all duration-300 ${
                     active
-                      ? "bg-lagoon-primary text-white shadow-md shadow-lagoon-primary/20 font-semibold"
+                      ? "bg-lagoon-primary text-white shadow-xs font-semibold"
                       : "bg-white/70 text-lagoon-muted border border-lagoon-border hover:bg-white hover:text-lagoon-deep"
                   }`}
                 >
@@ -66,17 +67,18 @@ export default function Projects({ onSelectProject }: ProjectsProps) {
           </div>
         </div>
 
-        {/* Project List */}
-        <div className="flex flex-col gap-10 sm:gap-14">
+        {/* Project Container Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
           <AnimatePresence mode="popLayout">
             {filteredProjects.map((project) => (
               <motion.div
                 key={project.id}
                 layout
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.96 }}
-                transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                className="h-full flex flex-col"
               >
                 <ProjectCard
                   project={project}

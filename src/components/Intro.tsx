@@ -29,7 +29,7 @@ export default function Intro() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="font-heading font-medium text-2xl sm:text-3xl md:text-4xl lg:text-[2.6rem] leading-[1.3] text-lagoon-deep tracking-tight"
+              className="font-heading font-medium text-2xl sm:text-3xl md:text-4xl lg:text-[2.5rem] leading-[1.45] md:leading-[1.5] text-lagoon-deep tracking-normal"
             >
               I enjoy turning ideas that sound slightly unusual into things that actually work.
             </motion.p>

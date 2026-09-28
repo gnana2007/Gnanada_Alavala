@@ -1,12 +1,14 @@
 import { useState, useRef, useEffect } from "react";
-import { Sparkles, X, Bot, ArrowRight, CornerDownLeft } from "lucide-react";
-import { assistantQA, profile, projects } from "../data/content";
+import { Sparkles, X, Bot, CornerDownLeft, MessageSquareQuote } from "lucide-react";
+import { assistantQA, profile } from "../data/content";
 
 interface Message {
   id: string;
   sender: "user" | "assistant";
   text: string;
+  isFallback?: boolean;
   relatedProject?: string;
+  suggestedChips?: string[];
 }
 
 interface PortfolioAssistantProps {
@@ -26,21 +28,19 @@ export default function PortfolioAssistant({
     {
       id: "welcome",
       sender: "assistant",
-      text: "Hello! I'm Gnanada's Portfolio AI, indexed directly over her projects, research at Next Tech Lab, and technical stack. What would you like to explore?",
+      text: "Hi! I'm Gnanada's Portfolio AI. I can answer questions about her AI pipelines, computer vision systems, IoT hardware, and hackathon wins. What would you like to know?",
+      suggestedChips: [
+        "What is PlantWise?",
+        "Tell me about 9 Hacks 3D VR",
+        "How does Air Drawing work?",
+        "Which projects use AI?",
+        "Hardware & IoT projects",
+      ],
     },
   ]);
   const [inputValue, setInputValue] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
-
-  const sampleChips = [
-    "What is PlantWise?",
-    "Which projects use AI?",
-    "What technologies does Gnanada use?",
-    "Tell me about the hardware projects.",
-    "Which project demonstrates computer vision?",
-    "What did she win at 9 Hacks?",
-  ];
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -52,73 +52,124 @@ export default function PortfolioAssistant({
     }
   }, [messages, isOpen]);
 
-  // Knowledge Retrieval Engine based on question embeddings / keyword matching
-  const findAnswer = (query: string): { text: string; relatedProject?: string } => {
-    const qLower = query.toLowerCase();
+  // Robust Domain-Specific Retrieval Engine with Fallback Detection
+  const queryPortfolioKnowledge = (query: string): { 
+    text: string; 
+    relatedProject?: string; 
+    isFallback?: boolean;
+    suggestedChips?: string[];
+  } => {
+    const q = query.toLowerCase().trim();
 
-    // Check pre-indexed Q&A
+    // 1. Direct Q&A match
     for (const item of assistantQA) {
-      const matchWords = item.question.toLowerCase().split(" ").filter((w) => w.length > 3);
-      const matches = matchWords.filter((w) => qLower.includes(w));
-      if (matches.length >= 2 || qLower.includes(item.question.toLowerCase())) {
+      const qWords = item.question.toLowerCase().split(" ").filter((w) => w.length > 3);
+      const matches = qWords.filter((w) => q.includes(w));
+      if (matches.length >= 2 || q.includes(item.question.toLowerCase())) {
         return { text: item.answer, relatedProject: item.relatedProject };
       }
     }
 
-    if (qLower.includes("plantwise") || qLower.includes("plant")) {
-      const p = projects.find((x) => x.id === "plantwise")!;
+    // 2. Project-Specific Keywords
+    if (q.includes("plantwise") || q.includes("plant") || q.includes("botanical") || q.includes("soil")) {
       return {
-        text: `${p.name} is ${p.subtitle}. ${p.description} It indexes ${p.metric?.value} botanical documents in ChromaDB with sentence embeddings.`,
+        text: `PlantWise is an AI plant knowledge search engine indexing 21,150+ botanical documents in ChromaDB. It uses Sentence-Transformers (768-dim embeddings) and Gemini to answer complex natural-language agricultural questions.`,
         relatedProject: "plantwise",
       };
     }
 
-    if (qLower.includes("teachmewrong") || qLower.includes("teach") || qLower.includes("pedagogy")) {
-      const p = projects.find((x) => x.id === "teachmewrong")!;
+    if (q.includes("3d") || q.includes("photo") || q.includes("vr") || q.includes("9 hacks") || q.includes("hackathon")) {
       return {
-        text: `${p.name} is ${p.subtitle}. It turns tutoring upside down: the AI intentionally misunderstands concepts, challenging the learner to correct it and prove mastery.`,
-        relatedProject: "teachmewrong",
+        text: `At the 9 Hacks Hackathon, Gnanada achieved 2nd Runner-Up for 'Single Photo → 3D Model'. The system predicts depth maps from a single 2D photograph, reconstructs a 48,000-vertex 3D point cloud, and renders it in an immersive VR viewer.`,
+        relatedProject: "photo-to-3d",
       };
     }
 
-    if (qLower.includes("timesensei") || qLower.includes("vision") || qLower.includes("camera") || qLower.includes("posture")) {
-      const p = projects.find((x) => x.id === "timesensei")!;
+    if (q.includes("air") || q.includes("drawing") || q.includes("finger") || q.includes("sketch")) {
       return {
-        text: `${p.name} is a contactless computer vision productivity system built with OpenCV & MediaPipe (<28ms gesture inference). It tracks posture and commands without off-device cloud video streaming.`,
+        text: `'Air Drawing Canvas' is a touchless computer vision sketchpad built with OpenCV and MediaPipe. It tracks the 3D tip of an index finger at 60 FPS to draw vector lines without physically touching the screen.`,
+        relatedProject: "air-drawing",
+      };
+    }
+
+    if (q.includes("timesensei") || q.includes("posture") || q.includes("vision") || q.includes("camera") || q.includes("fatigue")) {
+      return {
+        text: `TimeSensei is an on-device computer vision productivity system (<28ms inference latency). It monitors posture ergonomics and recognizes hands-free gestures (open palm to pause, thumbs up to resume) with 100% on-device privacy.`,
         relatedProject: "timesensei",
       };
     }
 
-    if (qLower.includes("kaal") || qLower.includes("chakra") || qLower.includes("hardware") || qLower.includes("iot") || qLower.includes("board")) {
-      const p = projects.find((x) => x.id === "kaal-chakra")!;
+    if (q.includes("teachmewrong") || q.includes("pedagogy") || q.includes("learn") || q.includes("teach")) {
       return {
-        text: `${p.name} is an interactive cyber-physical IoT board game bridging physical tactile pieces, Hall-effect sensors, and servo motors to a synchronized web engine via an ESP32 microcontroller.`,
+        text: `TeachMeWrong flips traditional tutoring on its head: the AI deliberately adopts subtle conceptual flaws, challenging the user to detect, explain, and debug the misconception to prove true mastery.`,
+        relatedProject: "teachmewrong",
+      };
+    }
+
+    if (q.includes("kaal") || q.includes("chakra") || q.includes("hardware") || q.includes("iot") || q.includes("esp32") || q.includes("board game")) {
+      return {
+        text: `Kaal-Chakra is a cyber-physical IoT board game linking an ESP32 microcontroller, Hall-effect sensors, and servo motors with a real-time web state engine over low-latency WebSockets (<100ms sync).`,
         relatedProject: "kaal-chakra",
       };
     }
 
-    if (qLower.includes("codementor") || qLower.includes("debug") || qLower.includes("ast")) {
-      const p = projects.find((x) => x.id === "codementor")!;
+    if (q.includes("codementor") || q.includes("debug") || q.includes("ast") || q.includes("bug")) {
       return {
-        text: `${p.name} is an AI debugging platform that parses code AST graphs in real time to isolate unhandled async promise rejections and generates precision code diffs.`,
+        text: `CodeMentor.ai performs static AST analysis to identify silent runtime bugs (like unhandled async Promises) and generates validated one-click code patches with Gemini.`,
         relatedProject: "codementor",
       };
     }
 
-    if (qLower.includes("hackathon") || qLower.includes("9 hacks") || qLower.includes("3d") || qLower.includes("vr")) {
+    if (q.includes("keno") || q.includes("piano") || q.includes("music")) {
       return {
-        text: "Gnanada achieved 2nd Runner-Up at the 9 Hacks Hackathon for engineering an automated pipeline that takes a single 2D photo and reconstructs interactive 3D depth models in VR!",
+        text: `Keno is an interactive piano learning platform built with React, FastAPI, Scikit-learn, and the Web Audio API. It turns songs into guided exercises and adapts difficulty based on user latency.`,
+        relatedProject: "keno",
       };
     }
 
-    if (qLower.includes("contact") || qLower.includes("email") || qLower.includes("hire") || qLower.includes("reach")) {
+    if (q.includes("recipora") || q.includes("recipe") || q.includes("pantry") || q.includes("food")) {
       return {
-        text: `You can reach Gnanada directly via email at ${profile.email} or on LinkedIn at ${profile.linkedinUrl}. She is open to engineering discussions, internships, and collaborative builds!`,
+        text: `Recipora is an ingredient-based zero-waste recipe search engine that matches expiring pantry items with delicious recipes using cosine vector similarity.`,
+        relatedProject: "recipora",
       };
     }
 
+    // 3. Skills, Tech Stack, Education & Background
+    if (q.includes("tech") || q.includes("stack") || q.includes("languages") || q.includes("skills") || q.includes("framework")) {
+      return {
+        text: `Gnanada's core stack includes:\n• AI / ML: Python, Sentence Transformers, ChromaDB, OpenCV, MediaPipe, scikit-learn, Gemini\n• Full Stack: React, Next.js, TypeScript, Node.js, Express, FastAPI, Tailwind CSS\n• Hardware: ESP32 microcontrollers, Hall sensors, C++\n• Databases: PostgreSQL, Supabase, MongoDB`,
+      };
+    }
+
+    if (q.includes("education") || q.includes("university") || q.includes("college") || q.includes("cgpa") || q.includes("study") || q.includes("srm")) {
+      return {
+        text: `Gnanada is pursuing her B.Tech in Computer Science and Engineering at SRM University-AP (CGPA 8.6 / 10). She is also an active member at Next Tech Lab (NTL).`,
+      };
+    }
+
+    if (q.includes("contact") || q.includes("email") || q.includes("reach") || q.includes("hire") || q.includes("linkedin") || q.includes("github")) {
+      return {
+        text: `You can reach Gnanada at ${profile.email}, connect on LinkedIn (in/gnanadaalavala), or view her code on GitHub (@${profile.github}).`,
+      };
+    }
+
+    if (q.includes("who are you") || q.includes("about") || q.includes("introduce")) {
+      return {
+        text: `Gnanada is a Computer Science engineering student and AI/full-stack builder at SRM University-AP. She turns unusual ideas into working software, intelligent systems, and interactive hardware prototypes.`,
+      };
+    }
+
+    // 4. Intentional Fallback for Out-of-Domain / Irrelevant queries
     return {
-      text: "Gnanada focuses on AI/ML (RAG, Sentence Transformers, Gemini, OpenCV), Full-Stack Systems (React, Next.js, Node, FastAPI), and IoT Hardware (ESP32). You can explore specific projects like PlantWise, TimeSensei, TeachMeWrong, or Kaal-Chakra above!",
+      text: `I'm specialized in Gnanada's portfolio, engineering projects, AI/ML research, and tech stack. I don't have information on that topic, but you can explore any of these areas:`,
+      isFallback: true,
+      suggestedChips: [
+        "What is PlantWise?",
+        "Tell me about 9 Hacks 3D VR",
+        "How does Air Drawing work?",
+        "Tell me about Kaal-Chakra IoT",
+        "What tech stack is used?",
+      ],
     };
   };
 
@@ -137,30 +188,37 @@ export default function PortfolioAssistant({
     setIsTyping(true);
 
     setTimeout(() => {
-      const res = findAnswer(text);
+      const res = queryPortfolioKnowledge(text);
       const aiMsg: Message = {
         id: (Date.now() + 1).toString(),
         sender: "assistant",
         text: res.text,
         relatedProject: res.relatedProject,
+        isFallback: res.isFallback,
+        suggestedChips: res.suggestedChips,
       };
       setMessages((prev) => [...prev, aiMsg]);
       setIsTyping(false);
-    }, 450);
+    }, 350);
   };
 
   return (
     <>
-      {/* Floating Trigger Button */}
+      {/* Sleek Floating Glassmorphic Icon Badge Launcher */}
       {!isOpen && (
         <button
           onClick={onOpen}
-          className="fixed bottom-6 right-6 z-40 px-5 py-3 rounded-full bg-white/90 backdrop-blur-xl border border-lagoon-primary/20 text-lagoon-deep hover:text-lagoon-primary font-mono text-xs tracking-wider uppercase font-semibold shadow-[0_10px_30px_rgba(11,114,133,0.15)] hover:border-lagoon-primary/50 hover:bg-white hover:-translate-y-1 transition-all duration-300 flex items-center gap-2.5 group"
-          aria-label="Open Portfolio AI Assistant"
+          className="fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full glass-panel border border-white/90 shadow-[0_12px_35px_rgba(11,114,133,0.18)] hover:shadow-[0_15px_40px_rgba(11,114,133,0.28)] hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center group"
+          aria-label="Open AI Assistant"
+          title="Open AI Assistant"
         >
-          <Sparkles className="w-4 h-4 text-lagoon-accent group-hover:rotate-12 transition-transform duration-300" />
-          <span>ASK MY PORTFOLIO AI</span>
-          <ArrowRight className="w-3.5 h-3.5 text-lagoon-primary group-hover:translate-x-0.5 transition-transform" />
+          {/* Subtle pulsating lagoon glow indicator */}
+          <span className="absolute -top-1 -right-1 flex h-3.5 w-3.5">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-lagoon-accent opacity-75" />
+            <span className="relative inline-flex rounded-full h-3.5 w-3.5 bg-lagoon-primary" />
+          </span>
+
+          <Sparkles className="w-6 h-6 text-lagoon-primary group-hover:rotate-12 transition-transform duration-300" />
         </button>
       )}
 
@@ -176,11 +234,11 @@ export default function PortfolioAssistant({
               </div>
               <div>
                 <h4 className="font-heading font-semibold text-xs tracking-wider uppercase text-lagoon-deep">
-                  PORTFOLIO RAG AGENT
+                  PORTFOLIO AI ASSISTANT
                 </h4>
                 <div className="flex items-center gap-1.5 text-[10px] font-mono text-lagoon-muted">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                  <span>Index: 21K+ Docs & Resume</span>
+                  <span>Verified Portfolio Knowledge Engine</span>
                 </div>
               </div>
             </div>
@@ -204,22 +262,43 @@ export default function PortfolioAssistant({
                   className={`flex flex-col max-w-[88%] ${isAi ? "mr-auto" : "ml-auto"}`}
                 >
                   <div
-                    className={`p-3.5 rounded-2xl leading-relaxed ${
+                    className={`p-3.5 rounded-2xl leading-relaxed whitespace-pre-line ${
                       isAi
-                        ? "bg-lagoon-bg/90 border border-lagoon-border text-lagoon-deep rounded-bl-xs"
+                        ? m.isFallback
+                          ? "bg-amber-50/90 border border-amber-200 text-lagoon-deep rounded-bl-xs"
+                          : "bg-lagoon-bg/90 border border-lagoon-border text-lagoon-deep rounded-bl-xs"
                         : "bg-lagoon-primary text-white rounded-br-xs shadow-xs font-normal"
                     }`}
                   >
                     {m.text}
                   </div>
 
+                  {/* Fallback suggestion chips */}
+                  {m.suggestedChips && m.suggestedChips.length > 0 && (
+                    <div className="flex flex-wrap gap-1.5 mt-2">
+                      {m.suggestedChips.map((chip, idx) => (
+                        <button
+                          key={idx}
+                          onClick={() => handleSendMessage(chip)}
+                          className="px-2.5 py-1 rounded-full bg-white border border-lagoon-border text-[10px] font-mono text-lagoon-primary hover:bg-lagoon-glow transition-colors text-left"
+                        >
+                          → {chip}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+
                   {/* Project Jump Link if recognized */}
                   {m.relatedProject && onSelectProject && (
                     <button
-                      onClick={() => onSelectProject(m.relatedProject!)}
-                      className="mt-1.5 text-[10px] font-mono text-lagoon-primary flex items-center gap-1 hover:underline"
+                      onClick={() => {
+                        onSelectProject(m.relatedProject!);
+                        onClose();
+                      }}
+                      className="mt-1.5 text-[10px] font-mono text-lagoon-primary flex items-center gap-1 hover:underline font-medium"
                     >
-                      <span>Jump to {m.relatedProject.toUpperCase()} in Selected Work →</span>
+                      <MessageSquareQuote className="w-3 h-3" />
+                      <span>Inspect {m.relatedProject.toUpperCase()} in Projects →</span>
                     </button>
                   )}
                 </div>
@@ -236,19 +315,6 @@ export default function PortfolioAssistant({
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Quick Sample Questions Chips */}
-          <div className="px-4 py-2 bg-lagoon-bg/40 border-t border-lagoon-border/50 overflow-x-auto no-scrollbar flex items-center gap-1.5">
-            {sampleChips.map((chip, i) => (
-              <button
-                key={i}
-                onClick={() => handleSendMessage(chip)}
-                className="whitespace-nowrap px-2.5 py-1 rounded-full bg-white border border-lagoon-border/80 text-[10px] font-mono text-lagoon-deep hover:border-lagoon-primary hover:text-lagoon-primary transition-colors shrink-0"
-              >
-                {chip}
-              </button>
-            ))}
-          </div>
-
           {/* Input Box */}
           <div className="p-3 bg-white border-t border-lagoon-border/70">
             <form
@@ -262,7 +328,7 @@ export default function PortfolioAssistant({
                 type="text"
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
-                placeholder="Ask about projects, tech stack, AI..."
+                placeholder="Ask about projects, AI, 3D VR, tech stack..."
                 className="flex-1 bg-transparent text-xs text-lagoon-deep focus:outline-none"
               />
               <button

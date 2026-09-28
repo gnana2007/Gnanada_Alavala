@@ -5,7 +5,6 @@ import Hero from "./components/Hero";
 import Intro from "./components/Intro";
 import Projects from "./components/Projects";
 import ProjectDetail from "./components/ProjectDetail";
-import Lab from "./components/Lab";
 import TechStack from "./components/TechStack";
 import BuildProcess from "./components/BuildProcess";
 import Achievements from "./components/Achievements";
@@ -38,17 +37,13 @@ export default function App() {
       <BackgroundGlow />
 
       {/* Sticky Minimal Navigation */}
-      <Nav
-        onOpenResume={() => setIsResumeOpen(true)}
-        onOpenAssistant={() => setIsAssistantOpen(true)}
-      />
+      <Nav onOpenResume={() => setIsResumeOpen(true)} />
 
       {/* Main Flow */}
       <main className="relative z-10">
         <Hero />
         <Intro />
         <Projects onSelectProject={setActiveProject} />
-        <Lab />
         <TechStack />
         <BuildProcess />
         <Achievements />

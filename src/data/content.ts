@@ -38,6 +38,7 @@ export type Project = {
   category: "AI / ML" | "FULL STACK" | "COMPUTER VISION" | "HARDWARE" | "EXPERIMENTS";
   badge?: string;
   tech: string[];
+  shortSummary: string;
   description: string;
   metric?: {
     value: string;
@@ -47,7 +48,7 @@ export type Project = {
   bullets: string[];
   link?: string;
   githubUrl?: string;
-  demoType: "plantwise" | "teachmewrong" | "timesensei" | "kaalchakra" | "codementor" | "keno" | "recipora";
+  demoType: "plantwise" | "teachmewrong" | "timesensei" | "kaalchakra" | "codementor" | "airdrawing" | "photo3d" | "keno" | "recipora";
 };
 
 export const projects: Project[] = [
@@ -57,22 +58,23 @@ export const projects: Project[] = [
     name: "PlantWise",
     subtitle: "AI Plant Knowledge Search Engine",
     category: "AI / ML",
-    tech: ["Python", "FastAPI", "ChromaDB", "Sentence Transformers", "Gemini", "NLP"],
-    description: "An AI-powered semantic search engine for plant knowledge, designed to answer natural-language questions using transformer embeddings and vector retrieval.",
+    tech: ["Python", "FastAPI", "ChromaDB", "Sentence Transformers", "Gemini"],
+    shortSummary: "Semantic search engine indexing 21,150+ plant knowledge documents via vector embeddings and RAG.",
+    description: "An AI-powered semantic search engine for plant knowledge, designed to answer natural-language questions using transformer embeddings and vector retrieval. Ingests dense botanical datasets and applies cosine distance matching for context-grounded Gemini synthesis.",
     metric: {
       value: "21,150+",
       label: "documents indexed",
     },
     workflow: [
-      "Which plants grow in black soil?",
-      "Semantic Search (Vector Embeddings)",
-      "Relevant plant knowledge retrieved",
-      "AI generated botanical answer",
+      "Natural-language query: 'Which plants grow in black soil?'",
+      "Sentence-Transformers encoding into 768-dim vector space",
+      "ChromaDB cosine similarity retrieval across 21K+ records",
+      "Context-grounded Gemini synthesis with source citations",
     ],
     bullets: [
-      "Built a semantic search engine that answers natural-language questions about plants, using transformer embeddings and ChromaDB vector indexing.",
-      "Engineered automated ingestion and token chunking pipeline for botanical datasets across 21,150+ plant knowledge vectors.",
-      "Integrated Gemini API to formulate conversational, context-grounded botanical answers with source attribution.",
+      "Engineered automated ingestion and chunking pipeline for botanical datasets across 21,150+ knowledge vectors.",
+      "Achieved sub-120ms vector retrieval using ChromaDB indexing and custom similarity threshold filters.",
+      "Integrated Gemini LLM with RAG prompt constraints to formulate factually grounded botanical answers.",
     ],
     githubUrl: "https://github.com/gnana2007",
     demoType: "plantwise",
@@ -85,22 +87,23 @@ export const projects: Project[] = [
     category: "AI / ML",
     badge: "REVERSE-PEDAGOGY AI",
     tech: ["React", "FastAPI", "Python", "LLM Feedback Loop", "Tailwind CSS"],
-    description: "An AI intentionally misunderstands a concept so that the learner has to teach and correct it. The ultimate proof that you understand a subject is your ability to detect and fix subtle misconceptions.",
+    shortSummary: "An active recall AI that intentionally adopts misconceptions, challenging learners to debug and correct it.",
+    description: "An AI system that intentionally misunderstands a concept so that the learner has to teach and correct it. The ultimate proof that you understand a subject is your ability to detect and fix subtle misconceptions through rigorous conversational debugging.",
     metric: {
       value: "5-Step",
       label: "Active Recall Loop",
     },
     workflow: [
-      "YOU: Explain a concept",
-      "AI: Misunderstands intentionally",
-      "YOU: Correct the flaw",
-      "AI: Updates understanding",
-      "YOU: Prove true mastery",
+      "YOU: Explain a scientific concept",
+      "AI: Formulates believable student misconception",
+      "YOU: Debug the flaw and provide counter-evidence",
+      "AI: Validates correction & updates understanding",
+      "SYSTEM: Confirms conceptual mastery score",
     ],
     bullets: [
-      "Inverted traditional RAG tutoring by prompting the model to adopt believable student misconceptions.",
-      "Forces active recall and critical thinking through iterative conversational debugging.",
-      "Tracks user explanatory depth and rewards nuance over simple rote keyword repetition.",
+      "Inverted traditional RAG tutoring by prompting the model to adopt realistic misconceptions based on cognitive science.",
+      "Forces active recall and critical thinking through multi-turn dialectical debugging.",
+      "Evaluates user explanatory depth and rewards nuance over rote keyword repetition.",
     ],
     githubUrl: "https://github.com/gnana2007",
     demoType: "teachmewrong",
@@ -111,44 +114,102 @@ export const projects: Project[] = [
     name: "TimeSensei",
     subtitle: "Computer Vision Productivity System",
     category: "COMPUTER VISION",
-    tech: ["Python", "OpenCV", "MediaPipe", "React", "WebSocket", "NumPy"],
-    description: "A contactless computer vision productivity system tracking focus, posture, and gesture-driven commands in real time with minimal latency.",
+    tech: ["Python", "OpenCV", "MediaPipe", "React", "WebSocket"],
+    shortSummary: "Contactless computer vision pipeline tracking posture, eye fatigue, and hands-free gestures.",
+    description: "A contactless computer vision productivity system tracking focus, posture, and gesture-driven commands in real time with minimal latency. All image processing runs strictly on-device to guarantee complete visual privacy.",
     metric: {
       value: "<28ms",
       label: "gesture inference",
     },
     workflow: [
-      "Camera input stream",
-      "Vision model & Landmark detection",
-      "Gesture recognition trigger",
-      "Action: Pause / Focus logged",
+      "Real-time webcam video stream ingestion",
+      "MediaPipe skeletal landmark & facial geometry tracking",
+      "Cosine distance heuristic for posture & gesture classification",
+      "Instant state dispatch: Pomodoro timer pause/resume",
     ],
     bullets: [
-      "Trained custom landmark classifiers using MediaPipe and OpenCV to identify ergonomic posture and hand gestures.",
-      "Detects screen fatigue, distance-from-camera, and enables gesture control for timer pause/resume.",
-      "100% on-device vision processing to preserve strict user privacy without cloud streaming.",
+      "Trained custom landmark classifiers using MediaPipe and OpenCV to identify ergonomic posture and gestures at 60 FPS.",
+      "100% on-device vision processing ensuring zero camera feed transmission to external cloud servers.",
+      "Enabled contactless gesture triggers (open palm pause, thumbs up resume) to minimize workflow interruption.",
     ],
     githubUrl: "https://github.com/gnana2007",
     demoType: "timesensei",
   },
   {
-    id: "kaal-chakra",
+    id: "air-drawing",
     number: "04",
+    name: "Air Drawing Canvas",
+    subtitle: "Contactless Gesture Sketchpad",
+    category: "COMPUTER VISION",
+    badge: "TOUCHLESS INTERACTION",
+    tech: ["OpenCV", "MediaPipe", "HTML5 Canvas", "Vector Math"],
+    shortSummary: "Draw in 2D space by tracking the 3D tip of an index finger without ever touching the screen.",
+    description: "A touchless digital canvas interface that tracks the 3D coordinate of the user's index fingertip via MediaPipe landmark geometry and translates spatial movements into smooth vector strokes on an HTML5 canvas in real time.",
+    metric: {
+      value: "60 FPS",
+      label: "canvas smoothing",
+    },
+    workflow: [
+      "Optical hand landmark tracking & index tip isolation",
+      "Distance threshold detection between thumb & index (pen down)",
+      "Bézier curve interpolation for smooth stroke rendering",
+      "Multi-color palette selection via finger tap triggers",
+    ],
+    bullets: [
+      "Implemented Kalman filtering to remove finger jitter and produce silky, continuous strokes.",
+      "Designed dynamic gestures for drawing mode, erasing, color switching, and canvas clearing.",
+      "Runs fully in-browser with minimal CPU overhead.",
+    ],
+    githubUrl: "https://github.com/gnana2007",
+    demoType: "airdrawing",
+  },
+  {
+    id: "photo-to-3d",
+    number: "05",
+    name: "Single Photo → 3D Model",
+    subtitle: "Spatial 3D Reconstruction in VR",
+    category: "EXPERIMENTS",
+    badge: "🥈 9 HACKS 2ND RUNNER-UP",
+    tech: ["Depth Estimation", "WebGL", "Three.js", "VR Viewer"],
+    shortSummary: "Reconstructs interactive 3D point clouds and depth meshes from a single 2D photo in VR.",
+    description: "An end-to-end spatial computing pipeline that takes a single 2D photograph, predicts dense monocular depth maps, generates an interactive 3D textured mesh, and renders it directly inside an immersive WebXR/VR environment.",
+    metric: {
+      value: "🥈 2nd Place",
+      label: "9 Hacks Hackathon",
+    },
+    workflow: [
+      "Single 2D image upload & color normalization",
+      "Monocular depth estimation (Z-axis elevation mapping)",
+      "Three.js 3D point cloud & textured mesh generation",
+      "WebXR integration for interactive headset / VR exploration",
+    ],
+    bullets: [
+      "Awarded 2nd Runner-Up at the 9 Hacks Hackathon out of dozens of university teams.",
+      "Engineered automatic mesh triangulation with over 48,000 vertices from single-perspective inputs.",
+      "Integrated full gyroscope and mouse parallax tilt controls for seamless web preview.",
+    ],
+    githubUrl: "https://github.com/gnana2007",
+    demoType: "photo3d",
+  },
+  {
+    id: "kaal-chakra",
+    number: "06",
     name: "Kaal-Chakra",
     subtitle: "Interactive IoT Board Game",
     category: "HARDWARE",
     badge: "HARDWARE + SOFTWARE",
-    tech: ["Microcontroller (ESP32)", "C++", "Sensors & Motors", "Web Dashboard", "IoT"],
-    description: "A tangible, interactive cyber-physical board game bridging tactile physical pieces with a synchronized real-time web state engine and motorized feedback.",
+    tech: ["ESP32", "C++", "Hall Sensors", "Servo Motors", "WebSockets"],
+    shortSummary: "Cyber-physical board game bridging physical pieces and sensor arrays with a synchronized web engine.",
+    description: "A tangible, interactive cyber-physical board game bridging physical tactile interaction with a dynamic web state engine. Links an ESP32 microcontroller, Hall-effect sensors, and servo motors with a real-time web dashboard over low-latency WebSockets.",
     metric: {
       value: "Sub-100ms",
       label: "hardware-web sync",
     },
     workflow: [
-      "MOBILE / WEB INTERFACE",
-      "MICROCONTROLLER (ESP32)",
-      "MOTOR / SENSOR SYSTEM",
-      "PHYSICAL GAME BOARD",
+      "Physical piece placement on magnetic tile grid",
+      "Hall-effect sensor triggers ESP32 GPIO interrupt",
+      "Bi-directional WebSocket packet transmitted to Web UI",
+      "Servo motor actuation rotates mechanical board rings",
     ],
     bullets: [
       "Designed custom hardware circuitry linking Hall-effect sensors and servo motors to an ESP32 microcontroller.",
@@ -160,23 +221,25 @@ export const projects: Project[] = [
   },
   {
     id: "codementor",
-    number: "05",
+    number: "07",
     name: "CodeMentor.ai",
     subtitle: "AI Debugging Platform",
     category: "AI / ML",
     tech: ["TypeScript", "Next.js", "AST Analysis", "Gemini API", "FastAPI"],
-    description: "An AI-powered debugging environment that analyzes code ASTs to identify silent logic bugs, unhandled async promises, and offers one-click validated fixes.",
+    shortSummary: "AST static analysis tool detecting silent runtime race conditions and unhandled async promises.",
+    description: "An AI-powered debugging environment that analyzes code ASTs to identify silent logic bugs, unhandled async promises, and offers one-click validated fixes with side-by-side patch diffs.",
     metric: {
       value: "Real-time",
       label: "AST static analysis",
     },
     workflow: [
-      "const result = fetchData()",
-      "AI ANALYSIS: Unhandled asynchronous error",
-      "Suggested fix: await fetchData() + try/catch",
+      "Code parsing into Abstract Syntax Tree (AST) nodes",
+      "Static detection of unresolved Promises & error boundaries",
+      "Gemini AST synthesis formulating deterministic code diff",
+      "Interactive one-click patch application",
     ],
     bullets: [
-      "Extracts Abstract Syntax Tree nodes to pinpoint race conditions and unhandled error boundaries.",
+      "Extracts Abstract Syntax Tree nodes to pinpoint race conditions and unhandled error boundaries before execution.",
       "Generates precise side-by-side patch diffs rather than generic conversational advice.",
       "Synthesizes unit test recommendations targeting identified edge cases.",
     ],
@@ -185,21 +248,22 @@ export const projects: Project[] = [
   },
   {
     id: "keno",
-    number: "06",
+    number: "08",
     name: "Keno",
     subtitle: "Interactive Piano Learning Platform",
     category: "FULL STACK",
     tech: ["React.js", "FastAPI", "Python", "Scikit-learn", "Web Audio API"],
-    description: "Converts songs into guided interactive keyboard exercises and tracks performance metrics like accuracy, tempo consistency, and reaction delay.",
+    shortSummary: "Guided keyboard tutor converting songs into adaptive exercises with ML difficulty scaling.",
+    description: "Converts songs into guided interactive keyboard exercises and tracks performance metrics like accuracy, tempo consistency, and reaction delay with ML-based adaptive difficulty scaling.",
     metric: {
       value: "ML-Based",
       label: "difficulty scaling",
     },
     workflow: [
-      "MIDI / Song Sheet Ingestion",
-      "Interactive Guided Playalong",
-      "Scikit-learn performance scoring",
-      "Dynamic adaptive progression",
+      "MIDI / Song Sheet Ingestion & note mapping",
+      "Interactive Guided Playalong with Web Audio polyphony",
+      "Scikit-learn performance scoring & tempo curve analysis",
+      "Dynamic adaptive progression recommendations",
     ],
     bullets: [
       "Synthesizes polyphonic piano notes in browser using Web Audio API oscillators.",
@@ -211,20 +275,21 @@ export const projects: Project[] = [
   },
   {
     id: "recipora",
-    number: "07",
+    number: "09",
     name: "Recipora",
     subtitle: "Ingredient-Based Recipe Discovery",
     category: "FULL STACK",
     tech: ["React.js", "Express.js", "Node.js", "MongoDB", "Cosine Similarity"],
-    description: "Suggests zero-waste culinary recipes based on ingredients currently in your pantry, utilizing vector search and fuzzy matching to prevent household food waste.",
+    shortSummary: "Zero-waste culinary discovery finding delicious recipes matching existing pantry staples.",
+    description: "Suggests zero-waste recipes based on pantry ingredients you already have, using semantic search and ingredient-similarity matching to cut household grocery waste.",
     metric: {
       value: "Zero-Waste",
       label: "pantry optimizer",
     },
     workflow: [
-      "Input available pantry items",
-      "Vector similarity & ingredient matching",
-      "Ranked zero-waste recipe options",
+      "Input available pantry produce & expiration dates",
+      "Vector similarity & ingredient matching across thousands of dishes",
+      "Ranked zero-waste recipe options with substitution recommendations",
     ],
     bullets: [
       "Engineered an ingredient matching algorithm maximizing utilization of expiring produce.",
@@ -233,63 +298,6 @@ export const projects: Project[] = [
     ],
     githubUrl: "https://github.com/gnana2007",
     demoType: "recipora",
-  },
-];
-
-export const labExperiments = [
-  {
-    id: "air-drawing",
-    title: "Air Drawing",
-    tagline: "Contactless Canvas",
-    tech: "OpenCV · MediaPipe · Canvas",
-    description: "Draw in 2D space by tracking the 3D tip of an index finger without touching the screen.",
-    category: "Computer Vision",
-    interactiveType: "drawing",
-  },
-  {
-    id: "name-music",
-    title: "Name → Music",
-    tagline: "Algorithmic Melody",
-    tech: "Web Audio API · Synthesis",
-    description: "Converts any name or word into a harmonious pentatonic synthesizer melody based on ASCII hashes.",
-    category: "Creative Audio",
-    interactiveType: "melody",
-  },
-  {
-    id: "single-photo-3d",
-    title: "Single Photo → 3D VR",
-    tagline: "9 Hacks 2nd Runner-Up",
-    tech: "Depth Maps · WebGL · Three.js",
-    description: "Reconstructs pseudo-3D point clouds from a single 2D photograph and renders interactive parallax depth.",
-    category: "Spatial AI",
-    interactiveType: "depth3d",
-  },
-  {
-    id: "rag-chunking",
-    title: "RAG Visualizer",
-    tagline: "Vector Distance Inspector",
-    tech: "Cosine Similarity · Vectors",
-    description: "Real-time visual demonstration of high-dimensional sentence embedding distances in 2D space.",
-    category: "AI / ML",
-    interactiveType: "rag",
-  },
-  {
-    id: "edge-detection",
-    title: "Kernel Convolution",
-    tagline: "Computer Vision Primitive",
-    tech: "Sobel Operator · Image Kernels",
-    description: "Interactive visual matrix showing how edge detection kernels transform raw pixel grids.",
-    category: "Computer Vision",
-    interactiveType: "kernel",
-  },
-  {
-    id: "ai-agent-flow",
-    title: "Autonomous Agent",
-    tagline: "Tool-Calling Loop",
-    tech: "State Machines · ReAct Pattern",
-    description: "Step-by-step simulator of an AI agent decomposing a complex problem into verifiable tool calls.",
-    category: "AI Systems",
-    interactiveType: "agent",
   },
 ];
 
@@ -338,11 +346,6 @@ export const achievements = [
     highlight: "LeetCode & Competitive Platforms",
   },
   {
-    metric: "🥈 2nd Runner-Up",
-    label: "9 Hacks Hackathon",
-    highlight: "Single Photo → 3D Model in VR",
-  },
-  {
     metric: "8.6 / 10",
     label: "CGPA at SRM AP",
     highlight: "B.Tech Computer Science & Engineering",
@@ -366,7 +369,7 @@ export const techStackCategories = [
       { name: "LLMs / Gemini", usedIn: "CodeMentor & PlantWise" },
       { name: "ChromaDB", usedIn: "21K+ botanical vector index" },
       { name: "OpenCV", usedIn: "TimeSensei & Air Drawing" },
-      { name: "MediaPipe", usedIn: "TimeSensei gesture recognition" },
+      { name: "MediaPipe", usedIn: "TimeSensei & Air Drawing" },
     ],
   },
   {
@@ -413,39 +416,45 @@ export const currentlyBuilding = [
 export const assistantQA: { question: string; answer: string; relatedProject?: string }[] = [
   {
     question: "What is PlantWise?",
-    answer: "PlantWise is an AI-powered semantic search engine for botanical knowledge indexing over 21,150+ plant documents. It uses Sentence Transformers and ChromaDB to answer complex natural-language queries (e.g., 'Which plants grow in black soil?') by extracting relevant vector chunks and synthesizing answers with Gemini.",
+    answer: "PlantWise is an AI-powered semantic search engine for botanical knowledge indexing over 21,150+ plant documents. It uses Sentence Transformers and ChromaDB to answer complex natural-language queries by extracting relevant vector chunks and synthesizing answers with Gemini.",
     relatedProject: "plantwise",
   },
   {
+    question: "Tell me about Air Drawing.",
+    answer: "Air Drawing Canvas is a contactless computer vision project built with OpenCV and MediaPipe. It tracks the 3D tip of your index finger to draw smooth vector lines on screen without touching any glass or mouse.",
+    relatedProject: "air-drawing",
+  },
+  {
+    question: "What did she win at 9 Hacks?",
+    answer: "Gnanada won 2nd Runner-Up at the 9 Hacks Hackathon for engineering 'Single Photo → 3D Model', which converts a single 2D image into an interactive 3D textured mesh and brings it into an immersive VR viewer.",
+    relatedProject: "photo-to-3d",
+  },
+  {
     question: "Which projects use AI?",
-    answer: "Several projects feature custom AI pipelines: PlantWise uses Sentence Transformers and ChromaDB for vector RAG; TeachMeWrong uses a reverse-pedagogy LLM feedback loop; CodeMentor.ai uses AST graph extraction with Gemini; and TimeSensei uses MediaPipe & OpenCV for real-time gesture & pose classification.",
+    answer: "Several projects feature custom AI pipelines: PlantWise uses Sentence Transformers and ChromaDB for vector RAG; TeachMeWrong uses a reverse-pedagogy LLM feedback loop; CodeMentor.ai uses AST graph extraction with Gemini; and TimeSensei & Air Drawing use MediaPipe & OpenCV for real-time vision classification.",
     relatedProject: "plantwise",
   },
   {
     question: "What technologies does Gnanada use?",
-    answer: "Gnanada works across Python (FastAPI, scikit-learn, OpenCV, ChromaDB, Sentence Transformers), Full-Stack JavaScript/TypeScript (React, Next.js, Node.js, Express, Tailwind CSS), Databases (PostgreSQL, Supabase, MongoDB), and Hardware/IoT (ESP32 microcontrollers, sensors, motors, C++).",
+    answer: "Gnanada works across Python (FastAPI, scikit-learn, OpenCV, ChromaDB, Sentence Transformers), Full-Stack TypeScript (React, Next.js, Node.js, Express, Tailwind CSS), Databases (PostgreSQL, Supabase, MongoDB), and Hardware/IoT (ESP32 microcontrollers, sensors, motors, C++).",
   },
   {
     question: "Tell me about the hardware projects.",
-    answer: "Kaal-Chakra is an interactive IoT board game that combines hardware and software. It links an ESP32 microcontroller, Hall-effect sensors, and servo motors with a real-time web dashboard over low-latency WebSockets.",
+    answer: "Kaal-Chakra is an interactive cyber-physical IoT board game. It connects an ESP32 microcontroller, Hall-effect sensors, and servo motors with a real-time web dashboard over low-latency WebSockets.",
     relatedProject: "kaal-chakra",
   },
   {
     question: "Which project demonstrates computer vision?",
-    answer: "TimeSensei is a computer vision productivity system built with OpenCV and MediaPipe. It tracks user posture, eye distance, and detects hand gestures (<28ms latency) without transmitting raw camera feeds off-device. In The Lab, you can also test the 'Air Drawing' and 'Kernel Convolution' experiments!",
+    answer: "TimeSensei is a computer vision productivity system (<28ms latency) tracking ergonomic posture and gestures. Air Drawing Canvas enables touchless in-air finger sketching using MediaPipe landmarks.",
     relatedProject: "timesensei",
   },
   {
-    question: "What did she win at 9 Hacks?",
-    answer: "Gnanada achieved 2nd Runner-Up at the 9 Hacks Hackathon for engineering an end-to-end system that converts a single 2D photograph into an interactive 3D model with VR viewer integration.",
-  },
-  {
     question: "What is TeachMeWrong?",
-    answer: "TeachMeWrong is an active-recall AI system that flips traditional tutoring. Instead of explaining things to you, it intentionally misunderstands concepts with believable flaws, challenging you to find and correct its misconceptions to prove your true mastery.",
+    answer: "TeachMeWrong is an active-recall AI system that flips traditional tutoring. Instead of explaining things to you, it intentionally misunderstands concepts with believable flaws, challenging you to detect and correct them to prove true mastery.",
     relatedProject: "teachmewrong",
   },
   {
     question: "Where does Gnanada study?",
-    answer: "Gnanada is currently pursuing her B.Tech in Computer Science and Engineering at SRM University-AP (CGPA 8.6/10) and is an active member at Next Tech Lab (NTL).",
+    answer: "Gnanada is currently pursuing her B.Tech in Computer Science and Engineering at SRM University-AP (CGPA 8.6/10) and is an active research member at Next Tech Lab (NTL).",
   },
 ];
