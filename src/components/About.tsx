@@ -79,7 +79,7 @@ export default function About() {
                 &ldquo;I don&rsquo;t just learn technologies. I build things with them.&rdquo;
               </blockquote>
               <span className="font-mono text-xs text-lagoon-primary mt-2 block font-medium">
-                — Gnanada
+                — Gnanada Alavala
               </span>
             </div>
           </div>

@@ -37,11 +37,11 @@ export default function Footer() {
               href="#top"
               className="font-heading font-semibold text-xs tracking-[0.25em] text-lagoon-deep uppercase hover:text-lagoon-primary transition-colors"
             >
-              GNANADA
+              GNANADA ALAVALA
             </a>
             <span className="hidden md:inline text-lagoon-border">•</span>
             <span className="font-mono text-xs text-lagoon-muted">
-              &copy; 2026 Gnanada · Built with curiosity.
+              &copy; 2026 Gnanada Alavala · Built with curiosity.
             </span>
           </div>
 

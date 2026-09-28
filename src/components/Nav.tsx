@@ -41,7 +41,7 @@ export default function Nav({ onOpenResume }: NavProps) {
             className="group flex items-center gap-2.5 font-heading font-semibold text-sm tracking-[0.25em] text-lagoon-deep hover:text-lagoon-primary transition-colors duration-200"
           >
             <span className="w-2 h-2 rounded-full bg-lagoon-accent group-hover:scale-125 transition-transform duration-200" />
-            <span>GNANADA</span>
+            <span>GNANADA ALAVALA</span>
           </a>
 
           {/* Desktop Navigation */}

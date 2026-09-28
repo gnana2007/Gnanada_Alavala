@@ -128,7 +128,7 @@ export default function Hero() {
               className="mt-10 flex items-center gap-3 text-xs font-mono text-lagoon-muted/80"
             >
               <span className="w-2 h-2 rounded-full bg-emerald-500" />
-              <span>SRM University-AP · B.Tech CSE (8.6 CGPA) · Next Tech Lab</span>
+              <span>Gnanada Alavala · SRM University-AP · B.Tech CSE (8.6 CGPA) · Next Tech Lab</span>
             </motion.div>
 
           </div>

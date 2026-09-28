@@ -2,8 +2,8 @@
 // Creative Engineer / AI Builder
 
 export const profile = {
-  name: "Gnanada",
-  fullName: "Alavala Gnanada",
+  name: "Gnanada Alavala",
+  fullName: "Gnanada Alavala",
   role: "Creative Engineer / AI Builder",
   headline: "I BUILD INTELLIGENT SYSTEMS PEOPLE CAN INTERACT WITH.",
   subheadline: "AI / ML · FULL STACK · COMPUTER VISION · IoT",

@@ -24,7 +24,7 @@ export default {
         display: ["'Poppins'", "sans-serif"],
         body: ["'Karla'", "sans-serif"],
         mono: ["'JetBrains Mono'", "monospace"],
-        signature: ["'Caveat'", "cursive"],
+        signature: ["'Shamson Signature'", "'Alex Brush'", "'Allura'", "'Caveat'", "cursive"],
       },
       boxShadow: {
         glass: "0 8px 32px 0 rgba(11, 114, 133, 0.06)",
