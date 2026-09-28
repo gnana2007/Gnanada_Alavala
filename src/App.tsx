@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { AnimatePresence } from "framer-motion";
+import Preloader from "./components/Preloader";
 import BackgroundGlow from "./components/BackgroundGlow";
 import Nav from "./components/Nav";
 import Hero from "./components/Hero";
@@ -18,6 +20,7 @@ import { projects } from "./data/content";
 import type { Project } from "./data/content";
 
 export default function App() {
+  const [isLoading, setIsLoading] = useState(true);
   const [activeProject, setActiveProject] = useState<Project | null>(null);
   const [isResumeOpen, setIsResumeOpen] = useState(false);
   const [isAssistantOpen, setIsAssistantOpen] = useState(false);
@@ -33,6 +36,13 @@ export default function App() {
 
   return (
     <div className="relative min-h-screen bg-lagoon-bg text-lagoon-deep font-body antialiased selection:bg-lagoon-accent/25 selection:text-lagoon-primary">
+      {/* Premium Glass Lagoon Entrance Preloader */}
+      <AnimatePresence mode="wait">
+        {isLoading && (
+          <Preloader onComplete={() => setIsLoading(false)} />
+        )}
+      </AnimatePresence>
+
       {/* Background Lagoon Ambience & Cursor Glow */}
       <BackgroundGlow />
 

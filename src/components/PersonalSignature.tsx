@@ -1,6 +1,9 @@
 import { motion } from "framer-motion";
 
 export default function PersonalSignature() {
+  const signatureName = "Gnanada Alavala";
+  const letters = Array.from(signatureName);
+
   return (
     <div className="flex flex-col items-center justify-center py-6 select-none">
       {/* Refined Glassmorphic Signature Plaque */}
@@ -11,16 +14,25 @@ export default function PersonalSignature() {
         transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
         className="relative px-8 sm:px-12 py-6 rounded-3xl glass-panel border border-white/90 shadow-[0_10px_30px_rgba(11,114,133,0.06)] flex flex-col items-center justify-center group hover:border-lagoon-primary/20 transition-all duration-300"
       >
-        {/* Natural, Understandable Cursive Signature in Shamson Signature / Alex Brush Font */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.96 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.15 }}
-          className="relative text-center"
-        >
-          <span className="font-signature text-4xl sm:text-5xl md:text-[3.25rem] text-lagoon-deep tracking-wide leading-none inline-block transform -rotate-1 hover:rotate-0 transition-transform duration-300 drop-shadow-xs">
-            Gnanada Alavala
+        {/* Natural, Understandable Cursive Signature writing letter by letter */}
+        <div className="relative text-center">
+          <span className="font-signature text-4xl sm:text-5xl md:text-[3.25rem] text-lagoon-deep tracking-wide leading-none inline-flex items-baseline transform -rotate-1 hover:rotate-0 transition-transform duration-300 drop-shadow-xs">
+            {letters.map((char, index) => (
+              <motion.span
+                key={index}
+                initial={{ opacity: 0, y: 7, scale: 0.9, filter: "blur(3px)" }}
+                whileInView={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
+                viewport={{ once: true }}
+                transition={{
+                  duration: 0.3,
+                  delay: 0.2 + index * 0.08,
+                  ease: [0.25, 0.1, 0.25, 1],
+                }}
+                className="inline-block"
+              >
+                {char === " " ? "\u00A0" : char}
+              </motion.span>
+            ))}
           </span>
 
           {/* Understated animated ink flourish underline */}
@@ -38,10 +50,10 @@ export default function PersonalSignature() {
               initial={{ pathLength: 0, opacity: 0 }}
               whileInView={{ pathLength: 1, opacity: 0.75 }}
               viewport={{ once: true }}
-              transition={{ duration: 1.1, delay: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
+              transition={{ duration: 0.8, delay: 1.45, ease: [0.25, 0.1, 0.25, 1] }}
             />
           </svg>
-        </motion.div>
+        </div>
       </motion.div>
     </div>
   );

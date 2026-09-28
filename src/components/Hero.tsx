@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { ArrowDown, ArrowUpRight, Cpu, Eye, Network, Layers, Sparkles, Terminal } from "lucide-react";
+import { ArrowDown, ArrowUpRight, Cpu, Eye, Network, Layers, Workflow, Terminal } from "lucide-react";
 import { profile } from "../data/content";
 
 export default function Hero() {
@@ -32,7 +32,7 @@ export default function Hero() {
   };
 
   const techNodes = [
-    { id: "ai", label: "AI / LLMs", icon: Sparkles, x: "20%", y: "20%", desc: "Reverse-RAG & Embedding Workflows" },
+    { id: "ai", label: "AI / LLMs", icon: Workflow, x: "20%", y: "20%", desc: "Reverse-RAG & Embedding Workflows" },
     { id: "vector", label: "VECTOR SEARCH", icon: Network, x: "72%", y: "24%", desc: "21K+ ChromaDB Cosine Retrieval" },
     { id: "vision", label: "COMPUTER VISION", icon: Eye, x: "30%", y: "68%", desc: "MediaPipe & Gesture Inference" },
     { id: "hardware", label: "PHYSICAL COMPUTING", icon: Cpu, x: "75%", y: "72%", desc: "ESP32 Cyber-Physical Board Game" },

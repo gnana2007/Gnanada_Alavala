@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Sparkles, X, Bot, CornerDownLeft, MessageSquareQuote } from "lucide-react";
+import { Compass, X, CornerDownLeft, MessageSquareQuote } from "lucide-react";
 import { assistantQA, profile } from "../data/content";
 
 interface Message {
@@ -209,8 +209,8 @@ export default function PortfolioAssistant({
         <button
           onClick={onOpen}
           className="fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full glass-panel border border-white/90 shadow-[0_12px_35px_rgba(11,114,133,0.18)] hover:shadow-[0_15px_40px_rgba(11,114,133,0.28)] hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center group"
-          aria-label="Open AI Assistant"
-          title="Open AI Assistant"
+          aria-label="Open Portfolio Guide"
+          title="Open Portfolio Guide"
         >
           {/* Subtle pulsating lagoon glow indicator */}
           <span className="absolute -top-1 -right-1 flex h-3.5 w-3.5">
@@ -218,7 +218,7 @@ export default function PortfolioAssistant({
             <span className="relative inline-flex rounded-full h-3.5 w-3.5 bg-lagoon-primary" />
           </span>
 
-          <Sparkles className="w-6 h-6 text-lagoon-primary group-hover:rotate-12 transition-transform duration-300" />
+          <Compass className="w-6 h-6 text-lagoon-primary group-hover:rotate-45 transition-transform duration-500 ease-out" />
         </button>
       )}
 
@@ -229,16 +229,16 @@ export default function PortfolioAssistant({
           {/* Header */}
           <div className="p-4 sm:p-5 border-b border-lagoon-border/70 flex items-center justify-between bg-lagoon-bg/70">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-full bg-lagoon-glow text-lagoon-primary border border-lagoon-accent/40 flex items-center justify-center">
-                <Bot className="w-4 h-4" />
+              <div className="w-8 h-8 rounded-full bg-lagoon-glow text-lagoon-primary border border-lagoon-accent/40 flex items-center justify-center shadow-xs">
+                <Compass className="w-4 h-4" />
               </div>
               <div>
                 <h4 className="font-heading font-semibold text-xs tracking-wider uppercase text-lagoon-deep">
-                  PORTFOLIO AI ASSISTANT
+                  PORTFOLIO COMPANION
                 </h4>
                 <div className="flex items-center gap-1.5 text-[10px] font-mono text-lagoon-muted">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                  <span>Verified Portfolio Knowledge Engine</span>
+                  <span>Verified Knowledge Engine</span>
                 </div>
               </div>
             </div>

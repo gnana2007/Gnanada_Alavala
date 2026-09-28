@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import { 
   Search, ArrowRight, CheckCircle2, AlertTriangle, 
-  Terminal, Camera, Cpu, Sparkles, Check, Database
+  Terminal, Camera, Cpu, Layers, Check, Database
 } from "lucide-react";
 
 // ==========================================
@@ -77,7 +77,7 @@ export function PlantWiseMockup() {
       {/* AI Answer Box */}
       <div className="p-3 rounded-xl bg-gradient-to-br from-white/90 to-lagoon-bg/80 border border-lagoon-accent/25 shadow-2xs">
         <div className="flex items-center gap-1.5 mb-1.5">
-          <Sparkles className="w-3 h-3 text-lagoon-accent" />
+          <Layers className="w-3 h-3 text-lagoon-accent" />
           <span className="font-mono text-[10px] font-semibold text-lagoon-primary uppercase tracking-wider">
             Gemini Botanical Context
           </span>
